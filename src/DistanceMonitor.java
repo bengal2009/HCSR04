@@ -1,5 +1,5 @@
 /**
- * Class to monitor distance measured by an HC-SR04 distance sensor on a
+ * Class to monitor distance measured by an HC-SR04 distance sensor on a 
  * Raspberry Pi.
  *
  * The main method assumes the trig pin is connected to the pin # 7 and the echo
@@ -20,7 +20,7 @@ import com.pi4j.io.gpio.RaspiPin;
  *
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
-public class SR04 {
+public class DistanceMonitor {
 
     private final static float SOUND_SPEED = 340.29f;  // speed of sound in m/s
 
@@ -34,7 +34,7 @@ public class SR04 {
     private final GpioPinDigitalInput echoPin;
     private final GpioPinDigitalOutput trigPin;
 
-    private SR04( Pin echoPin, Pin trigPin ) {
+    private DistanceMonitor( Pin echoPin, Pin trigPin ) {
         this.echoPin = gpio.provisionDigitalInputPin( echoPin );
         this.trigPin = gpio.provisionDigitalOutputPin( trigPin );
         this.trigPin.low();
@@ -42,7 +42,7 @@ public class SR04 {
 
     /*
      * This method returns the distance measured by the sensor in cm
-     *
+     * 
      * @throws TimeoutException if a timeout occurs
      */
     public float measureDistance() throws TimeoutException {
@@ -69,6 +69,7 @@ public class SR04 {
     /**
      * Wait for a high on the echo pin
      *
+     * @throws DistanceMonitor.TimeoutException if no high appears in time
      */
     private void waitForSignal() throws TimeoutException {
         int countdown = TIMEOUT;
@@ -84,6 +85,7 @@ public class SR04 {
 
     /**
      * @return the duration of the signal in micro seconds
+     * @throws DistanceMonitor.TimeoutException if no low appears in time
      */
     private long measureSignal() throws TimeoutException {
         int countdown = TIMEOUT;
@@ -103,7 +105,7 @@ public class SR04 {
     public static void main( String[] args ) {
         Pin echoPin = RaspiPin.GPIO_00; // PI4J custom numbering (pin 11)
         Pin trigPin = RaspiPin.GPIO_02; // PI4J custom numbering (pin 7)
-        SR04 monitor = new SR04( echoPin, trigPin );
+        DistanceMonitor monitor = new DistanceMonitor( echoPin, trigPin );
 
         while( true ) {
             try {

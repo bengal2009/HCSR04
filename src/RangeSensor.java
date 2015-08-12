@@ -1,6 +1,4 @@
-/**
- * Created by Lin on 2015/8/11.
- */
+
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 
@@ -36,7 +34,7 @@ public class RangeSensor {
             }
 
             diff = (System.nanoTime() - start) / 58000;
-
+            System.out.println("Diff:"+diff);
             return diff;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -44,4 +42,3 @@ public class RangeSensor {
         return -1;
     }
 }
-
