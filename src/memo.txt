@@ -1,0 +1,1 @@
+sudo gcc  -Wall -o ultra ultrasonic.c -lwiringPi
